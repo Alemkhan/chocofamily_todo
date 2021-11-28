@@ -16,7 +16,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
-    login = models.CharField(unique=True, max_length=30)
+    login = models.EmailField(unique=True, max_length=30)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True, default=2)
     modified_by = models.EmailField()
     is_active = models.BooleanField(default=True)

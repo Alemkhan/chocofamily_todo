@@ -33,6 +33,14 @@ media
 # PyBuilder
 target/
 
+# Celery
+*.bak
+*.dat
+*.dir
+
+# Test
+.coverage
+
 # virtualenv
 .venv
 venv/
