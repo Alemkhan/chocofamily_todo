@@ -2,7 +2,6 @@ from rest_framework import status
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .serializers import TaskSerializer
 from .permissions import IsEmployee, IsOwnerOrAdmin
@@ -14,7 +13,6 @@ class TaskListView(ListAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = (IsAuthenticated,)
-    authentication_classes = (JWTAuthentication,)
 
 
 class TaskCreateView(CreateAPIView):
