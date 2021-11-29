@@ -2,6 +2,19 @@ version: '3.1'
 
 services:
 
+  db:
+    container_name: postgres_todo
+    image: postgres:12.0-alpine
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data:rw
+
+  redis:
+    container_name: rediska
+    image: redis:latest
+    command: redis-server --port 6379 --appendonly yes
+    ports:
+      - '6379'
+
   app:
     build: .
     container_name: choco_todo
@@ -11,13 +24,18 @@ services:
     restart: always
     environment:
       DJANGO_SETTINGS_MODULE: choco_todo.settings
-      POSTGRES_HOST: db
+      POSTGRES_DB: todo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1337
     volumes:
       - .:/app
       - ./.env:/.env
+    links:
+      - redis
+      - db
     depends_on:
       - redis
-      - postgres
+      - db
     ports:
       - '8000:8000'
 
@@ -33,22 +51,3 @@ services:
       - ./.env:/.env
     depends_on:
       - app
-
-  postgres:
-    container_name: postgres_todo
-    image: postgres:12.0-alpine
-    environment:
-      POSTGRES_DB: todo
-      POSTGRES_USER: postgre
-      POSTGRES_PASSWORD: 1337
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data:rw
-    ports:
-      - '5422'
-
-  redis:
-    container_name: rediska
-    image: redis:latest
-    command: redis-server --port 6379 --appendonly yes
-    ports:
-      - '6379'

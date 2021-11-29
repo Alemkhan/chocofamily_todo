@@ -10,7 +10,7 @@ COPY ./.env /app
 
 RUN apk update && \
     apk add bash postgresql-client \
-    gcc libc-dev postgresql-dev gettext python3-dev jpeg-dev zlib-dev \
+    gcc g++ libc-dev postgresql-dev gettext python3-dev jpeg-dev zlib-dev \
     make git libffi-dev openssl-dev python3-dev \
     libxml2-dev libxslt-dev &&\
     pip install --upgrade pip
